@@ -10,7 +10,7 @@ int _printf(const char *format, ...)
 	check list[] = {
 		{"%s", string_printer},
 		{"%c", chara_printer},
-	/*	{"%%", printer_37},
+		{"%%", printer_37},
 		{"%i", integer_printer},
 		{"%d", decimal_printer},
 		{"%r", str_rev_printer},
@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
 		{"%X", HEX_printer},
 		{"%$", exclusive_string_printer},
 		{"%p", pointer_printer},
-	*/	};
+		};
 		
 	va_list tools;
 	int count = 0; 
