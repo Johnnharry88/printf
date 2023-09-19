@@ -1,9 +1,4 @@
-/*
- * File: base_converters.c
- * Auth: Brennan D Baraban
- */
-
-#include "holberton.h"
+#include "main.h"
 
 unsigned int change_s(shield_t *result, long int number, char *bases,
 		unsigned char flag, int width, int precision);

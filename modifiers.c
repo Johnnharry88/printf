@@ -5,12 +5,12 @@
 
 #include "holberton.h"
 
-unsigned int print_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid);
-unsigned int print_string_width(buffer_t *output,
-		unsigned char flags, int wid, int prec, int size);
-unsigned int print_neg_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid);
+unsigned int print_width(shield_t *result, unsigned int printed,
+		unsigned char flag, int width);
+unsigned int print_string_width(shield_t *result,
+		unsigned char flag, int width, int precision, int size);
+unsigned int print_neg_width(shield_t *result, unsigned int printed,
+		unsigned char flag, int width);
 
 /**
  * print_width - Stores leading spaces to a buffer for a width modifier.
@@ -22,16 +22,16 @@ unsigned int print_neg_width(buffer_t *output, unsigned int printed,
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int print_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid)
+unsigned int print_width(shield_t *result, unsigned int printed,
+		unsigned char flag, int width)
 {
 	unsigned int ret = 0;
 	char width = ' ';
 
-	if (NEG_FLAG == 0)
+	if (NEGATIVE_FLAG == 0)
 	{
-		for (wid -= printed; wid > 0;)
-			ret += _memcpy(output, &width, 1);
+		for (width -= printed; width > 0;)
+			ret += _memcpy(result, &width, 1);
 	}
 
 	return (ret);
@@ -47,17 +47,17 @@ unsigned int print_width(buffer_t *output, unsigned int printed,
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int print_string_width(buffer_t *output,
-		unsigned char flags, int wid, int prec, int size)
+unsigned int print_string_width(shield_t *result,
+		unsigned char flag, int width, int precision, int size)
 {
 	unsigned int ret = 0;
 	char width = ' ';
 
-	if (NEG_FLAG == 0)
+	if (NEGATIVE_FLAG == 0)
 	{
-		wid -= (prec == -1) ? size : prec;
-		for (; wid > 0; wid--)
-			ret += _memcpy(output, &width, 1);
+		width -= (precision == -1) ? size : precision;
+		for (; width > 0; width--)
+			ret += _memcpy(result, &width, 1);
 	}
 
 	return (ret);
@@ -73,16 +73,16 @@ unsigned int print_string_width(buffer_t *output,
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int print_neg_width(buffer_t *output, unsigned int printed,
-		unsigned char flags, int wid)
+unsigned int print_neg_width(shield_t *result, unsigned int printed,
+		unsigned char flag, int width)
 {
 	unsigned int ret = 0;
 	char width = ' ';
 
-	if (NEG_FLAG == 1)
+	if (NEGATIVE_FLAG == 1)
 	{
-		for (wid -= printed; wid > 0; wid--)
-			ret += _memcpy(output, &width, 1);
+		for (width -= printed; width > 0; width--)
+			ret += _memcpy(result, &width, 1);
 	}
 
 	return (ret);

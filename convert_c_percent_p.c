@@ -1,9 +1,4 @@
-/*
- * File: convert_c_percent_p.c
- * Auth: Brennan D Baraban
- */
-
-#include "holberton.h"
+#include "main.h"
 
 unsigned int convert_c(va_list args, shield_t *result,
 		unsigned char flag, int width, int precision, unsigned char len);

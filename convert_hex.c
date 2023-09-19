@@ -1,10 +1,4 @@
-/*
- * File: convert_hex.c
- * Auth: Brennan D Baraban
- *       Michael Klein
- */
-
-#include "holberton.h"
+#include "main.h"
 
 unsigned int convert_x(va_list args, shield_t *result,
 		unsigned char flag, int width, int precision, unsigned char len);

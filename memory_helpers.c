@@ -5,9 +5,9 @@
 
 #include "holberton.h"
 
-unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n);
-void free_buffer(buffer_t *output);
-buffer_t *init_buffer(void);
+unsigned int _memcpy(shield_t *output, const char *src, unsigned int n);
+void free_buffer(shield_t *output);
+shield_t *init_buffer(void);
 
 /**
  * _memcpy - Copies n bytes from memory area src to
@@ -18,7 +18,7 @@ buffer_t *init_buffer(void);
  *
  * Return: The number of bytes copied.
  */
-unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n)
+unsigned int _memcpy(shield_t *output, const char *src, unsigned int n)
 {
 	unsigned int index;
 
@@ -45,7 +45,7 @@ unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n)
  * free_buffer - Frees a buffer_t struct.
  * @output: The buffer_t struct to be freed.
  */
-void free_buffer(buffer_t *output)
+void free_buffer(shield_t *output)
 {
 	free(output->start);
 	free(output);
@@ -56,11 +56,11 @@ void free_buffer(buffer_t *output)
  *
  * Return: A pointer to the initialized buffer_t.
  */
-buffer_t *init_buffer(void)
+shield_t *init_buffer(void)
 {
-	buffer_t *output;
+	shield_t *output;
 
-	output = malloc(sizeof(buffer_t));
+	output = malloc(sizeof(shield_t));
 	if (output == NULL)
 		return (NULL);
 

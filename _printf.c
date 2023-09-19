@@ -1,13 +1,7 @@
-/*
- * File: _printf.c
- * Auth: Brennan D Baraban
- *       Michael Klein
- */
+#include "main.h"
 
-#include "holberton.h"
-
-void cleanup(va_list args, buffer_t *output);
-int run_printf(const char *format, va_list args, buffer_t *output);
+void cleanup(va_list args, shield_t *result);
+int run_printf(const char *format, va_list args, shield_t *result);
 int _printf(const char *format, ...);
 
 /**
@@ -15,11 +9,11 @@ int _printf(const char *format, ...);
  * @args: A va_list of arguments provided to _printf.
  * @output: A buffer_t struct.
  */
-void cleanup(va_list args, buffer_t *output)
+void cleanup(va_list args, shield_t *result)
 {
 	va_end(args);
-	write(1, output->start, output->len);
-	free_buffer(output);
+	write(1, result->start, result->len);
+	free_buffer(result);
 }
 
 /**
@@ -30,12 +24,12 @@ void cleanup(va_list args, buffer_t *output)
  *
  * Return: The number of characters stored to output.
  */
-int run_printf(const char *format, va_list args, buffer_t *output)
+int run_printf(const char *format, va_list args, shield_t *output)
 {
 	int i, wid, prec, ret = 0;
 	char tmp;
 	unsigned char flags, len;
-	unsigned int (*f)(va_list, buffer_t *,
+	unsigned int (*f)(va_list, shield_t *,
 			unsigned char, int, int, unsigned char);
 
 	for (i = 0; *(format + i); i++)
@@ -78,19 +72,19 @@ int run_printf(const char *format, va_list args, buffer_t *output)
  */
 int _printf(const char *format, ...)
 {
-	buffer_t *output;
+	shield_t *result;
 	va_list args;
 	int ret;
 
 	if (format == NULL)
 		return (-1);
-	output = init_buffer();
-	if (output == NULL)
+	result = init_buffer();
+	if (result == NULL)
 		return (-1);
 
 	va_start(args, format);
 
-	ret = run_printf(format, args, output);
+	ret = run_printf(format, args, result);
 
 	return (ret);
 }

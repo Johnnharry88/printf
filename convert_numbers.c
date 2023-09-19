@@ -1,10 +1,4 @@
-/*
- * File: convert_numbers.c
- * Auth: Brennan D Baraban
- *       Michael Klein
- */
-
-#include "holberton.h"
+#include "main.h"
 
 unsigned int convert_di(va_list args, shield_t *result,
 		unsigned char flag, int width, int precision, unsigned char len);
@@ -27,8 +21,8 @@ unsigned int convert_o(va_list args, shield_t *result,
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int convert_di(va_list args, shield_t *output,
-		unsigned char flags, int wid, int prec, unsigned char len)
+unsigned int convert_di(va_list args, shield_t *result,
+		unsigned char flag, int width, int precision, unsigned char len)
 {
 	long int d, copy;
 	unsigned int ret = 0, count = 0;
@@ -43,9 +37,9 @@ unsigned int convert_di(va_list args, shield_t *output,
 
 	/* Handle space flag */
 	if (SPACE_FLAG == 1 && d >= 0)
-		ret += _memcpy(output, &space, 1);
+		ret += _memcpy(result, &space, 1);
 
-	if (prec <= 0 && NEGATIVE_FLAG == 0) /* Handle width  */
+	if (precision <= 0 && NEGATIVE_FLAG == 0) /* Handle width  */
 	{
 		if (d == LONG_MIN)
 			count += 19;
@@ -61,28 +55,28 @@ unsigned int convert_di(va_list args, shield_t *output,
 
 		/* Handle plus flag when zero flag is active */
 		if (ZERO_FLAG == 1 && PLUS_FLAG == 1 && d >= 0)
-			ret += _memcpy(output, &plus, 1);
+			ret += _memcpy(result, &plus, 1);
 		/*Print negative sign when zero flag is active */
 		if (ZERO_FLAG == 1 && d < 0)
-			ret += _memcpy(output, &neg, 1);
+			ret += _memcpy(result, &neg, 1);
 
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
-		for (wid -= count; wid > 0; wid--)
-			ret += _memcpy(output, &pad, 1);
+		for (width -= count; width > 0; width--)
+			ret += _memcpy(result, &pad, 1);
 	}
 
 	/* Print negative sign when zero flag is not active */
 	if (ZERO_FLAG == 0 && d < 0)
-		ret += _memcpy(output, &neg, 1);
+		ret += _memcpy(result, &neg, 1);
 	/* Handle plus flag when zero flag is not active */
 	if (ZERO_FLAG == 0 && (PLUS_FLAG == 1 && d >= 0))
-		ret += _memcpy(output, &plus, 1);
+		ret += _memcpy(result, &plus, 1);
 
-	if (!(d == 0 && prec == 0))
-		ret += convert_sbase(output, d, "0123456789",
-				flags, 0, prec);
+	if (!(d == 0 && precision == 0))
+		ret += convert_sbase(result, d, "0123456789",
+				flag, 0, precision);
 
-	ret += print_neg_width(output, ret, flags, wid);
+	ret += print_neg_width(result, ret, flag, width);
 
 	return (ret);
 }
@@ -123,8 +117,8 @@ unsigned int convert_b(va_list args, shield_t *output,
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int convert_o(va_list args, shield_t *output,
-		unsigned char flags, int wid, int prec, unsigned char len)
+unsigned int convert_o(va_list args, shield_t *result,
+		unsigned char flag, int width, int precision, unsigned char len)
 {
 	unsigned long int num;
 	unsigned int ret = 0;
@@ -138,13 +132,13 @@ unsigned int convert_o(va_list args, shield_t *output,
 		num = (unsigned short)num;
 
 	if (HASH_FLAG == 1 && num != 0)
-		ret += _memcpy(output, &zero, 1);
+		ret += _memcpy(result, &zero, 1);
 
-	if (!(num == 0 && prec == 0))
-		ret += convert_ubase(output, num, "01234567",
-				flags, wid, prec);
+	if (!(num == 0 && precision == 0))
+		ret += convert_ubase(result, num, "01234567",
+				flag, width, precision);
 
-	ret += print_neg_width(output, ret, flags, wid);
+	ret += print_neg_width(result, ret, flag, width);
 
 	return (ret);
 }
