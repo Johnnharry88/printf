@@ -1,116 +1,106 @@
-#ifndef HOLBERTON_H
-#define HOLBERTON_H
-
-#include <limits.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-/* Flag Modifier Macros */
-#define PLUS 1
-#define SPACE 2
-#define HASH 4
-#define ZERO 8
-#define NEG 16
-#define PLUS_FLAG (flag & 1)
-#define SPACE_FLAG ((flag >> 1) & 1)
-#define HASH_FLAG ((flag >> 2) & 1)
-#define ZERO_FLAG ((flag >> 3) & 1)
-#define NEGATIVE_FLAG ((flag >> 4) & 1)
-
-/* Length Modifier Macros */
-#define SHORT 1
-#define LONG 2
-
-/**
- * struct buffer_s - A new type defining a buffer struct.
- * @buffer: A pointer to a character array.
- * @start: A pointer to the start of buffer.
- * @len: The length of the string stored in buffer.
- */
-typedef struct shield_s
+#ifndef MAIN_h
+#define MAIN_H
+#include ""
+int _printf(const char* str, ...)
 {
-	char *buffer;
-	char *start;
-	unsigned int len;
-} shield_t;
-
-/**
- * struct converter_s - A new type defining a converter struct.
- * @specifier: A character representing a conversion specifier.
- * @func: A pointer to a conversion function corresponding to specifier.
- */
-typedef struct converter_s
-{
-	unsigned char specifier;
-	unsigned int (*func)(va_list, shield_t *,
-			unsigned char, int, int, unsigned char);
-} converter_t;
-
-/**
- * struct flag_s - A new type defining a flags struct.
- * @flag: A character representing a flag.
- * @value: The integer value of the flag.
- */
-typedef struct flag_s
-{
-	unsigned char flag;
-	unsigned char value;
-} flag_t;
-
-int _printf(const char *format, ...);
-
-/* Conversion Specifier Functions */
-unsigned int convert_c(va_list args, shield_t *result,
-		unsigned char flag, int width, int precisions, unsigned char len);
-unsigned int convert_s(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_di(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_percent(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_b(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_u(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_o(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_x(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_X(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_S(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_p(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_r(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-unsigned int convert_R(va_list args, shield_t *result,
-		unsigned char flag, int width, int precision, unsigned char len);
-
-/* Handlers */
-unsigned char handle_flags(const char *flags, char *index);
-unsigned char handle_length(const char *modifier, char *index);
-int handle_width(va_list args, const char *modifier, char *index);
-int handle_precision(va_list args, const char *modifier, char *index);
-unsigned int (*handle_specifiers(const char *specifier))(va_list, shield_t *,
-		unsigned char, int, int, unsigned char);
-
-/* Modifiers */
-unsigned int print_width(shield_t *result, unsigned int printed,
-		unsigned char flag, int width);
-unsigned int print_string_width(shield_t *result,
-		unsigned char flag, int width, int precision, int size);
-unsigned int print_neg_width(shield_t *result, unsigned int printed,
-		unsigned char flag, int width);
-
-/* Helper Functions */
-shield_t *init_buffer(void);
-void free_buffer(shield_t *result);
-unsigned int _memcpy(shield_t *output, const char *src, unsigned int n);
-unsigned int convert_sbase(shield_t *output, long int num, char *base,
-		unsigned char flags, int wid, int prec);
-unsigned int convert_ubase(shield_t *output, unsigned long int num, char *base,
-		unsigned char flags, int wid, int prec);
-
-#endif /* HOLBERTON_H */
+	
+    // initializing list pointer
+    va_list ptr;
+    va_start(ptr, str);
+  
+    // char array to store token
+    char token[1000];
+    // index of where to store the characters of str in
+    // token
+    int k = 0;
+  
+    // parsing the formatted string
+    for (int i = 0; str[i] != '\0'; i++) {
+        token[k++] = str[i];
+  
+        if (str[i + 1] == '%' || str[i + 1] == '\0') {
+            token[k] = '\0';
+            k = 0;
+            if (token[0] != '%') {
+                fprintf(
+                    stdout, "%s",
+                    token); // printing the whole token if
+                            // it is not a format specifier
+            }
+            else {
+                int j = 1;
+                char ch1 = 0;
+  
+                // this loop is required when printing
+                // formatted value like 0.2f, when ch1='f'
+                // loop ends
+                while ((ch1 = token[j++]) < 58) {
+                }
+                // for integers
+                if (ch1 == 'i' || ch1 == 'd' || ch1 == 'u'
+                    || ch1 == 'h') {
+                    fprintf(stdout, token,
+                            va_arg(ptr, int));
+                }
+                // for characters
+                else if (ch1 == 'c') {
+                    fprintf(stdout, token,
+                            va_arg(ptr, int));
+                }
+                // for float values
+                else if (ch1 == 'f') {
+                    fprintf(stdout, token,
+                            va_arg(ptr, double));
+                }
+                else if (ch1 == 'l') {
+                    char ch2 = token[2];
+  
+                    // for long int
+                    if (ch2 == 'u' || ch2 == 'd'
+                        || ch2 == 'i') {
+                        fprintf(stdout, token,
+                                va_arg(ptr, long));
+                    }
+  
+                    // for double
+                    else if (ch2 == 'f') {
+                        fprintf(stdout, token,
+                                va_arg(ptr, double));
+                    }
+                }
+                else if (ch1 == 'L') {
+                    char ch2 = token[2];
+  
+                    // for long long int
+                    if (ch2 == 'u' || ch2 == 'd'
+                        || ch2 == 'i') {
+                        fprintf(stdout, token,
+                                va_arg(ptr, long long));
+                    }
+  
+                    // for long double
+                    else if (ch2 == 'f') {
+                        fprintf(stdout, token,
+                                va_arg(ptr, long double));
+                    }
+                }
+  
+                // for strings
+                else if (ch1 == 's') {
+                    fprintf(stdout, token,
+                            va_arg(ptr, char*));
+                }
+  
+                // print the whole token
+                // if no case is matched
+                else {
+                    fprintf(stdout, "%s", token);
+                }
+            }
+        }
+    }
+  
+    // ending traversal
+    va_end(ptr);
+    return 0;
+}

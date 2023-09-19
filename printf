@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-int myprintf(const char* string)
+int _printf(const char* string)
 {
 	   va_list ptr;
     va_start(ptr, str);
