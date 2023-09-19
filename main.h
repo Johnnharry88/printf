@@ -1,6 +1,5 @@
-#ifndef MAIN_h
+#ifndef MAIN_H
 #define MAIN_H
-#include ""
 int _printf(const char* str, ...)
 {
 	
@@ -104,3 +103,4 @@ int _printf(const char* str, ...)
     va_end(ptr);
     return 0;
 }
+#endif
